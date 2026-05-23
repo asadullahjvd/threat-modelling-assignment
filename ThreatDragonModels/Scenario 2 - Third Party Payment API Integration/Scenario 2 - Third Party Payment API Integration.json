@@ -19,12 +19,9 @@
         "cells": [
           {
             "type": "tm.BoundaryBox",
-            "size": { "width": 580, "height": 380 },
-            "position": { "x": 280, "y": 80 },
-            "attrs": {
-              "line": { "stroke": "#333333", "strokeDasharray": "10 5" },
-              "label": { "text": "Internal Network / Trust Boundary" }
-            },
+            "size": { "width": 560, "height": 380 },
+            "position": { "x": 260, "y": 80 },
+            "attrs": { "label": { "text": "Internal Network / Trust Boundary" } },
             "shape": "trust-boundary-box",
             "id": "boundary-internal",
             "zIndex": 1,
@@ -36,12 +33,9 @@
           },
           {
             "type": "tm.BoundaryBox",
-            "size": { "width": 160, "height": 120 },
-            "position": { "x": 920, "y": 100 },
-            "attrs": {
-              "line": { "stroke": "#ff0000", "strokeDasharray": "10 5" },
-              "label": { "text": "Third Party: Payment Gateway" }
-            },
+            "size": { "width": 160, "height": 100 },
+            "position": { "x": 900, "y": 110 },
+            "attrs": { "label": { "text": "Third Party: Payment Gateway" } },
             "shape": "trust-boundary-box",
             "id": "boundary-payment",
             "zIndex": 1,
@@ -53,12 +47,9 @@
           },
           {
             "type": "tm.BoundaryBox",
-            "size": { "width": 160, "height": 120 },
-            "position": { "x": 920, "y": 320 },
-            "attrs": {
-              "line": { "stroke": "#ff0000", "strokeDasharray": "10 5" },
-              "label": { "text": "Third Party: Email Service" }
-            },
+            "size": { "width": 160, "height": 100 },
+            "position": { "x": 900, "y": 320 },
+            "attrs": { "label": { "text": "Third Party: Email Service" } },
             "shape": "trust-boundary-box",
             "id": "boundary-email",
             "zIndex": 1,
@@ -71,10 +62,8 @@
           {
             "type": "tm.Actor",
             "size": { "width": 120, "height": 60 },
-            "position": { "x": 60, "y": 220 },
-            "attrs": {
-              "text": { "text": "Customer" }
-            },
+            "position": { "x": 60, "y": 230 },
+            "attrs": { "text": { "text": "Customer" } },
             "shape": "actor",
             "id": "actor-customer",
             "zIndex": 2,
@@ -89,10 +78,8 @@
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 300, "y": 130 },
-            "attrs": {
-              "text": { "text": "Frontend" }
-            },
+            "position": { "x": 290, "y": 140 },
+            "attrs": { "text": { "text": "Frontend" } },
             "shape": "process",
             "id": "process-frontend",
             "zIndex": 2,
@@ -104,11 +91,11 @@
               "threats": [
                 {
                   "id": "threat-1",
-                  "title": "Cross-Site Scripting (XSS) on Payment Page",
+                  "title": "Cross-Site Scripting on Payment Page",
                   "type": "Tampering",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker injects malicious scripts into the frontend payment page to steal customer payment details or session cookies before they are sent to the backend.",
+                  "description": "An attacker injects malicious scripts into the frontend payment page to steal customer payment details or session cookies.",
                   "mitigation": "Implement Content Security Policy (CSP), sanitise all user inputs, and use output encoding. Apply OWASP Top 10 A03 controls.",
                   "modelType": "STRIDE"
                 }
@@ -118,17 +105,15 @@
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 500, "y": 130 },
-            "attrs": {
-              "text": { "text": "E-commerce Backend" }
-            },
+            "position": { "x": 500, "y": 140 },
+            "attrs": { "text": { "text": "E-commerce Backend" } },
             "shape": "process",
             "id": "process-backend",
             "zIndex": 2,
             "data": {
               "type": "tm.Process",
               "name": "E-commerce Backend",
-              "description": "Core backend service processing orders and communicating with payment gateway via REST API using API keys",
+              "description": "Core backend processing orders and communicating with payment gateway via REST API",
               "outOfScope": false,
               "threats": [
                 {
@@ -137,8 +122,8 @@
                   "type": "Spoofing",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker gains access to the API key used to authenticate with the payment gateway, allowing them to make unauthorised payment requests or extract transaction data while impersonating the legitimate platform.",
-                  "mitigation": "Store API keys in environment variables or a secrets manager, never in source code. Rotate keys regularly and restrict key permissions to minimum required scope.",
+                  "description": "An attacker gains access to the API key used to authenticate with the payment gateway, making unauthorised payment requests.",
+                  "mitigation": "Store API keys in environment variables or secrets manager. Rotate keys regularly and restrict permissions to minimum scope.",
                   "modelType": "STRIDE"
                 },
                 {
@@ -147,8 +132,8 @@
                   "type": "Tampering",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker intercepts or modifies transaction data in transit between the backend and payment gateway, altering payment amounts or redirecting funds.",
-                  "mitigation": "Use TLS 1.2+ for all API communications, implement request signing/HMAC verification, and validate all transaction responses from the gateway.",
+                  "description": "An attacker intercepts and modifies transaction data in transit between the backend and payment gateway, altering payment amounts.",
+                  "mitigation": "Use TLS 1.2+ for all API communications. Implement request signing and HMAC verification.",
                   "modelType": "STRIDE"
                 },
                 {
@@ -157,8 +142,8 @@
                   "type": "Repudiation",
                   "status": "Open",
                   "severity": "Medium",
-                  "description": "A customer or internal actor denies having made or processed a transaction. Without proper logging, it is impossible to prove what actions were taken.",
-                  "mitigation": "Implement comprehensive transaction audit logs with timestamps, user IDs, and transaction IDs. Store logs in a tamper-evident system. Reference ISO 27001 A.12.4.",
+                  "description": "A customer or internal actor denies having made or processed a transaction. Without proper logging it is impossible to prove what actions were taken.",
+                  "mitigation": "Implement comprehensive transaction audit logs with timestamps and transaction IDs stored in a tamper-evident system. Reference ISO 27001 A.12.4.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -167,17 +152,15 @@
           {
             "type": "tm.Store",
             "size": { "width": 130, "height": 60 },
-            "position": { "x": 480, "y": 340 },
-            "attrs": {
-              "text": { "text": "Transaction Database" }
-            },
+            "position": { "x": 490, "y": 350 },
+            "attrs": { "text": { "text": "Transaction Database" } },
             "shape": "store",
             "id": "store-db",
             "zIndex": 2,
             "data": {
               "type": "tm.Store",
               "name": "Transaction Database",
-              "description": "Internal database storing transaction results, order details, and customer information",
+              "description": "Internal database storing transaction results and customer order details",
               "outOfScope": false,
               "isALog": false,
               "storesCredentials": false,
@@ -189,8 +172,8 @@
                   "type": "Information disclosure",
                   "status": "Open",
                   "severity": "High",
-                  "description": "Sensitive customer payment and personal data stored in the transaction database is exposed due to SQL injection, misconfiguration, or unauthorised access.",
-                  "mitigation": "Encrypt sensitive data at rest using AES-256. Use parameterised queries to prevent SQL injection. Apply least-privilege database access controls. Reference OWASP Top 10 A02.",
+                  "description": "Sensitive customer payment data stored in the transaction database is exposed due to SQL injection or misconfiguration.",
+                  "mitigation": "Encrypt sensitive data at rest using AES-256. Use parameterised queries. Apply least-privilege database access. Reference OWASP Top 10 A02.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -198,36 +181,32 @@
           },
           {
             "type": "tm.Actor",
-            "size": { "width": 130, "height": 60 },
-            "position": { "x": 950, "y": 140 },
-            "attrs": {
-              "text": { "text": "Payment Gateway" }
-            },
+            "size": { "width": 120, "height": 60 },
+            "position": { "x": 930, "y": 140 },
+            "attrs": { "text": { "text": "Payment Gateway" } },
             "shape": "actor",
             "id": "actor-payment",
             "zIndex": 2,
             "data": {
               "type": "tm.Actor",
               "name": "Payment Gateway",
-              "description": "Third-party payment processing service accepting REST API requests authenticated with API keys",
+              "description": "Third-party payment processing service accepting REST API requests",
               "outOfScope": false,
               "threats": []
             }
           },
           {
             "type": "tm.Actor",
-            "size": { "width": 130, "height": 60 },
-            "position": { "x": 950, "y": 350 },
-            "attrs": {
-              "text": { "text": "Email Service" }
-            },
+            "size": { "width": 120, "height": 60 },
+            "position": { "x": 930, "y": 350 },
+            "attrs": { "text": { "text": "Email Service" } },
             "shape": "actor",
             "id": "actor-email",
             "zIndex": 2,
             "data": {
               "type": "tm.Actor",
               "name": "Email Service",
-              "description": "Third-party email delivery service used to send order confirmation emails to customers",
+              "description": "Third-party email delivery service for order confirmation emails",
               "outOfScope": false,
               "threats": [
                 {
@@ -236,8 +215,8 @@
                   "type": "Elevation of privilege",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker compromises the third-party email service credentials or API key, allowing them to send fraudulent order confirmation emails containing phishing links to customers, escalating from email access to customer account takeover.",
-                  "mitigation": "Use dedicated email API keys with send-only permissions. Implement DKIM, SPF, and DMARC email authentication. Monitor for anomalous sending patterns.",
+                  "description": "An attacker compromises the email service API key, sending fraudulent order confirmation emails with phishing links to customers.",
+                  "mitigation": "Use dedicated send-only API keys. Implement DKIM, SPF, and DMARC. Monitor for anomalous sending patterns.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -245,122 +224,87 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "actor-customer" },
-            "target": { "id": "process-frontend" },
-            "attrs": { "label": { "text": "Place Order (HTTPS)" } },
+            "source": { "cell": "actor-customer" },
+            "target": { "cell": "process-frontend" },
+            "vertices": [],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-1",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Place Order (HTTPS)",
-              "description": "Customer submits order and payment details via HTTPS",
-              "isEncrypted": true,
-              "protocol": "HTTPS",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Place Order (HTTPS)" } } }],
+            "data": { "type": "tm.Flow", "name": "Place Order (HTTPS)", "isEncrypted": true, "protocol": "HTTPS", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-frontend" },
-            "target": { "id": "process-backend" },
-            "attrs": { "label": { "text": "Order Request" } },
+            "source": { "cell": "process-frontend" },
+            "target": { "cell": "process-backend" },
+            "vertices": [],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-2",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Order Request",
-              "description": "Frontend sends order data to backend for processing",
-              "isEncrypted": true,
-              "protocol": "HTTPS",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Order Request" } } }],
+            "data": { "type": "tm.Flow", "name": "Order Request", "isEncrypted": true, "protocol": "HTTPS", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-backend" },
-            "target": { "id": "actor-payment" },
-            "attrs": { "label": { "text": "Payment Request (REST API + API Key)" } },
+            "source": { "cell": "process-backend" },
+            "target": { "cell": "actor-payment" },
+            "vertices": [],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-3",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Payment Request (REST API + API Key)",
-              "description": "Backend sends payment request to gateway using REST API authenticated with API key",
-              "isEncrypted": true,
-              "protocol": "HTTPS/REST",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Payment Request (REST + API Key)" } } }],
+            "data": { "type": "tm.Flow", "name": "Payment Request (REST + API Key)", "isEncrypted": true, "protocol": "HTTPS/REST", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "actor-payment" },
-            "target": { "id": "process-backend" },
-            "attrs": { "label": { "text": "Transaction Result" } },
+            "source": { "cell": "actor-payment" },
+            "target": { "cell": "process-backend" },
+            "vertices": [{ "x": 990, "y": 230 }, { "x": 550, "y": 230 }],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-4",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Transaction Result",
-              "description": "Payment gateway returns transaction success or failure result",
-              "isEncrypted": true,
-              "protocol": "HTTPS/REST",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Transaction Result" } } }],
+            "data": { "type": "tm.Flow", "name": "Transaction Result", "isEncrypted": true, "protocol": "HTTPS/REST", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-backend" },
-            "target": { "id": "store-db" },
-            "attrs": { "label": { "text": "Store Transaction" } },
+            "source": { "cell": "process-backend" },
+            "target": { "cell": "store-db" },
+            "vertices": [],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-5",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Store Transaction",
-              "description": "Backend stores transaction result in internal database",
-              "isEncrypted": false,
-              "protocol": "SQL",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Store Transaction Record" } } }],
+            "data": { "type": "tm.Flow", "name": "Store Transaction Record", "isEncrypted": false, "protocol": "SQL", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-backend" },
-            "target": { "id": "actor-email" },
-            "attrs": { "label": { "text": "Send Confirmation Email" } },
+            "source": { "cell": "process-backend" },
+            "target": { "cell": "actor-email" },
+            "vertices": [],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-6",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Send Confirmation Email",
-              "description": "Backend triggers confirmation email via third-party email service",
-              "isEncrypted": true,
-              "protocol": "HTTPS/API",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Send Confirmation Email" } } }],
+            "data": { "type": "tm.Flow", "name": "Send Confirmation Email", "isEncrypted": true, "protocol": "HTTPS/API", "threats": [] }
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-backend" },
-            "target": { "id": "process-frontend" },
-            "attrs": { "label": { "text": "Display Transaction Result" } },
+            "source": { "cell": "process-backend" },
+            "target": { "cell": "process-frontend" },
+            "vertices": [{ "x": 550, "y": 280 }, { "x": 340, "y": 280 }],
+            "attrs": { "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } } },
             "shape": "flow",
             "id": "flow-7",
             "zIndex": 3,
-            "data": {
-              "type": "tm.Flow",
-              "name": "Display Transaction Result",
-              "description": "Backend sends transaction result to frontend for display to customer",
-              "isEncrypted": true,
-              "protocol": "HTTPS",
-              "threats": []
-            }
+            "labels": [{ "attrs": { "label": { "text": "Display Transaction Result" } } }],
+            "data": { "type": "tm.Flow", "name": "Display Transaction Result", "isEncrypted": true, "protocol": "HTTPS", "threats": [] }
           }
         ]
       }
