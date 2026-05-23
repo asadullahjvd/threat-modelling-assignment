@@ -22,7 +22,6 @@
             "size": { "width": 620, "height": 340 },
             "position": { "x": 310, "y": 90 },
             "attrs": {
-              "line": { "stroke": "#333333", "strokeDasharray": "10 5" },
               "label": { "text": "Internal Network / Trust Boundary" }
             },
             "shape": "trust-boundary-box",
@@ -38,9 +37,7 @@
             "type": "tm.Actor",
             "size": { "width": 120, "height": 60 },
             "position": { "x": 80, "y": 210 },
-            "attrs": {
-              "text": { "text": "User" }
-            },
+            "attrs": { "text": { "text": "User" } },
             "shape": "actor",
             "id": "actor-user",
             "zIndex": 2,
@@ -55,10 +52,8 @@
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 370, "y": 180 },
-            "attrs": {
-              "text": { "text": "Web Server" }
-            },
+            "position": { "x": 380, "y": 180 },
+            "attrs": { "text": { "text": "Web Server" } },
             "shape": "process",
             "id": "process-webserver",
             "zIndex": 2,
@@ -94,10 +89,8 @@
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 620, "y": 180 },
-            "attrs": {
-              "text": { "text": "Session Manager" }
-            },
+            "position": { "x": 640, "y": 180 },
+            "attrs": { "text": { "text": "Session Manager" } },
             "shape": "process",
             "id": "process-session",
             "zIndex": 2,
@@ -123,10 +116,8 @@
           {
             "type": "tm.Store",
             "size": { "width": 120, "height": 60 },
-            "position": { "x": 610, "y": 350 },
-            "attrs": {
-              "text": { "text": "User Database" }
-            },
+            "position": { "x": 630, "y": 370 },
+            "attrs": { "text": { "text": "User Database" } },
             "shape": "store",
             "id": "store-db",
             "zIndex": 2,
@@ -154,15 +145,16 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "cell": "actor-user", "port": "right" },
-            "target": { "cell": "process-webserver", "port": "left" },
+            "source": { "cell": "actor-user" },
+            "target": { "cell": "process-webserver" },
+            "vertices": [],
             "attrs": {
-              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
-              "label": { "text": "Login Request (HTTPS)" }
+              "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } }
             },
             "shape": "flow",
             "id": "flow-1",
             "zIndex": 3,
+            "labels": [{ "attrs": { "label": { "text": "Login Request (HTTPS)" } } }],
             "data": {
               "type": "tm.Flow",
               "name": "Login Request (HTTPS)",
@@ -176,15 +168,16 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "cell": "process-webserver", "port": "right" },
-            "target": { "cell": "process-session", "port": "left" },
+            "source": { "cell": "process-webserver" },
+            "target": { "cell": "process-session" },
+            "vertices": [],
             "attrs": {
-              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
-              "label": { "text": "Validate Credentials" }
+              "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } }
             },
             "shape": "flow",
             "id": "flow-2",
             "zIndex": 3,
+            "labels": [{ "attrs": { "label": { "text": "Validate Credentials" } } }],
             "data": {
               "type": "tm.Flow",
               "name": "Validate Credentials",
@@ -198,15 +191,16 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "cell": "process-session", "port": "bottom" },
-            "target": { "cell": "store-db", "port": "top" },
+            "source": { "cell": "process-session" },
+            "target": { "cell": "store-db" },
+            "vertices": [],
             "attrs": {
-              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
-              "label": { "text": "Query User Record" }
+              "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } }
             },
             "shape": "flow",
             "id": "flow-3",
             "zIndex": 3,
+            "labels": [{ "attrs": { "label": { "text": "Query User Record" } } }],
             "data": {
               "type": "tm.Flow",
               "name": "Query User Record",
@@ -220,15 +214,16 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "cell": "process-session", "port": "left" },
-            "target": { "cell": "actor-user", "port": "right" },
+            "source": { "cell": "process-session" },
+            "target": { "cell": "actor-user" },
+            "vertices": [{ "x": 690, "y": 340 }, { "x": 140, "y": 340 }],
             "attrs": {
-              "line": { "stroke": "#333333", "targetMarker": { "name": "block" }, "strokeDasharray": "5 3" },
-              "label": { "text": "Session Token Response" }
+              "line": { "stroke": "#333333", "strokeDasharray": null, "targetMarker": { "name": "block" } }
             },
             "shape": "flow",
             "id": "flow-4",
             "zIndex": 3,
+            "labels": [{ "attrs": { "label": { "text": "Session Token Response" } } }],
             "data": {
               "type": "tm.Flow",
               "name": "Session Token Response",
