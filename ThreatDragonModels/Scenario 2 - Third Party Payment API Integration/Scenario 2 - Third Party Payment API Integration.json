@@ -10,16 +10,6 @@
     "contributors": [],
     "diagrams": [
       {
-        "id": 0,
-        "title": "Authentication Flow",
-        "diagramType": "STRIDE",
-        "placeholder": "New STRIDE diagram description",
-        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
-        "version": "2.6.2",
-        "cells": [],
-        "description": "User login flow with session management"
-      },
-      {
         "id": 1,
         "title": "Payment Transaction Flow",
         "diagramType": "STRIDE",
