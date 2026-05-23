@@ -1,0 +1,47 @@
+{
+  "version": "2.6.2",
+  "summary": {
+    "title": "Scenario 3 - Microservices Healthcare Application",
+    "owner": "Asadullah",
+    "description": "A healthcare organisation microservices-based patient management system comprising a Patient Portal, Identity Service, Medical Records Service, Appointment Service, Notification Service, and API Gateway. The patient portal and API gateway are exposed to the public internet while all inter-service communication occurs over an internal network.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "Authentication Flow",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [],
+        "description": "User login flow with session management"
+      },
+      {
+        "id": 1,
+        "title": "Payment Transaction Flow",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [],
+        "description": "Data flow diagram showing payment processing, third-party API integration, database storage, and email notification flow."
+      },
+      {
+        "id": 2,
+        "title": "Healthcare Microservices Flow",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [],
+        "description": "Comprehensive data flow diagram showing all six microservices, trust boundaries between public internet, DMZ, and internal network, and inter-service communication flows."
+      }
+    ],
+    "diagramTop": 3,
+    "reviewer": "Shehryar Raza",
+    "threatTop": 0
+  }
+}
