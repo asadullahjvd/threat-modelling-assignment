@@ -19,8 +19,8 @@
         "cells": [
           {
             "type": "tm.BoundaryBox",
-            "size": { "width": 610, "height": 330 },
-            "position": { "x": 320, "y": 100 },
+            "size": { "width": 620, "height": 340 },
+            "position": { "x": 310, "y": 90 },
             "attrs": {
               "line": { "stroke": "#333333", "strokeDasharray": "10 5" },
               "label": { "text": "Internal Network / Trust Boundary" }
@@ -37,7 +37,7 @@
           {
             "type": "tm.Actor",
             "size": { "width": 120, "height": 60 },
-            "position": { "x": 80, "y": 220 },
+            "position": { "x": 80, "y": 210 },
             "attrs": {
               "text": { "text": "User" }
             },
@@ -49,14 +49,13 @@
               "name": "User",
               "description": "Registered user attempting to log in via browser over HTTPS",
               "outOfScope": false,
-              "reasonOutOfScope": "",
               "threats": []
             }
           },
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 380, "y": 190 },
+            "position": { "x": 370, "y": 180 },
             "attrs": {
               "text": { "text": "Web Server" }
             },
@@ -66,9 +65,8 @@
             "data": {
               "type": "tm.Process",
               "name": "Web Server",
-              "description": "Handles incoming HTTP/HTTPS login requests from the user and forwards to session manager",
+              "description": "Handles incoming HTTPS login requests and forwards to session manager",
               "outOfScope": false,
-              "reasonOutOfScope": "",
               "threats": [
                 {
                   "id": "threat-1",
@@ -76,8 +74,8 @@
                   "type": "Spoofing",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker uses leaked username and password combinations from other breaches to attempt login to the web application, impersonating legitimate users.",
-                  "mitigation": "Implement rate limiting, account lockout after failed attempts, and CAPTCHA on the login endpoint. Use breach password detection services.",
+                  "description": "An attacker uses leaked username and password combinations from other breaches to attempt login, impersonating legitimate users.",
+                  "mitigation": "Implement rate limiting, account lockout after failed attempts, and CAPTCHA on the login endpoint.",
                   "modelType": "STRIDE"
                 },
                 {
@@ -86,8 +84,8 @@
                   "type": "Denial of service",
                   "status": "Open",
                   "severity": "Medium",
-                  "description": "An attacker floods the login endpoint with a large volume of requests, making the web server unresponsive to legitimate users.",
-                  "mitigation": "Apply rate limiting per IP address, use a Web Application Firewall (WAF), and implement CAPTCHA to distinguish bots from humans.",
+                  "description": "An attacker floods the login endpoint with requests making the web server unresponsive to legitimate users.",
+                  "mitigation": "Apply rate limiting per IP, use a Web Application Firewall, and implement CAPTCHA.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -96,7 +94,7 @@
           {
             "type": "tm.Process",
             "size": { "width": 100, "height": 100 },
-            "position": { "x": 620, "y": 190 },
+            "position": { "x": 620, "y": 180 },
             "attrs": {
               "text": { "text": "Session Manager" }
             },
@@ -108,7 +106,6 @@
               "name": "Session Manager",
               "description": "Generates and validates session tokens after successful authentication",
               "outOfScope": false,
-              "reasonOutOfScope": "",
               "threats": [
                 {
                   "id": "threat-3",
@@ -116,8 +113,8 @@
                   "type": "Tampering",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker intercepts or steals a valid session token through network sniffing or XSS, then uses it to impersonate the authenticated user without needing credentials.",
-                  "mitigation": "Set session tokens with HttpOnly and Secure cookie flags. Regenerate tokens after login. Implement session timeout and invalidation on logout.",
+                  "description": "An attacker intercepts or steals a valid session token through network sniffing or XSS, then uses it to impersonate the authenticated user.",
+                  "mitigation": "Set HttpOnly and Secure cookie flags. Regenerate tokens after login. Implement session timeout.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -126,7 +123,7 @@
           {
             "type": "tm.Store",
             "size": { "width": 120, "height": 60 },
-            "position": { "x": 610, "y": 360 },
+            "position": { "x": 610, "y": 350 },
             "attrs": {
               "text": { "text": "User Database" }
             },
@@ -136,9 +133,8 @@
             "data": {
               "type": "tm.Store",
               "name": "User Database",
-              "description": "Relational database storing user credentials including usernames and hashed passwords",
+              "description": "Relational database storing usernames and hashed passwords",
               "outOfScope": false,
-              "reasonOutOfScope": "",
               "isALog": false,
               "storesCredentials": true,
               "isEncrypted": false,
@@ -149,8 +145,8 @@
                   "type": "Information disclosure",
                   "status": "Open",
                   "severity": "High",
-                  "description": "An attacker gains unauthorised access to the user database and retrieves stored credentials. If passwords are stored in plaintext or weakly hashed, they can be cracked and used.",
-                  "mitigation": "Store passwords using strong hashing algorithms such as bcrypt or Argon2 with salting. Encrypt the database at rest and restrict database access to application processes only.",
+                  "description": "An attacker gains unauthorised access to the user database and retrieves stored credentials.",
+                  "mitigation": "Hash passwords with bcrypt or Argon2. Encrypt database at rest. Restrict access to application processes only.",
                   "modelType": "STRIDE"
                 }
               ]
@@ -158,10 +154,10 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "actor-user" },
-            "target": { "id": "process-webserver" },
+            "source": { "cell": "actor-user", "port": "right" },
+            "target": { "cell": "process-webserver", "port": "left" },
             "attrs": {
-              "line": { "stroke": "#333333" },
+              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
               "label": { "text": "Login Request (HTTPS)" }
             },
             "shape": "flow",
@@ -180,10 +176,10 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-webserver" },
-            "target": { "id": "process-session" },
+            "source": { "cell": "process-webserver", "port": "right" },
+            "target": { "cell": "process-session", "port": "left" },
             "attrs": {
-              "line": { "stroke": "#333333" },
+              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
               "label": { "text": "Validate Credentials" }
             },
             "shape": "flow",
@@ -202,10 +198,10 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-session" },
-            "target": { "id": "store-db" },
+            "source": { "cell": "process-session", "port": "bottom" },
+            "target": { "cell": "store-db", "port": "top" },
             "attrs": {
-              "line": { "stroke": "#333333" },
+              "line": { "stroke": "#333333", "targetMarker": { "name": "block" } },
               "label": { "text": "Query User Record" }
             },
             "shape": "flow",
@@ -224,10 +220,10 @@
           },
           {
             "type": "tm.Flow",
-            "source": { "id": "process-session" },
-            "target": { "id": "actor-user" },
+            "source": { "cell": "process-session", "port": "left" },
+            "target": { "cell": "actor-user", "port": "right" },
             "attrs": {
-              "line": { "stroke": "#333333" },
+              "line": { "stroke": "#333333", "targetMarker": { "name": "block" }, "strokeDasharray": "5 3" },
               "label": { "text": "Session Token Response" }
             },
             "shape": "flow",
